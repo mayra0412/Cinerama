@@ -1,0 +1,433 @@
+package pe.edu.upc.spring.model;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
+@Entity
+@Table (name = "Tipo")
+public class TipoDocumento implements Serializable {
+ private static final long serialVersionUID = 1L;
+ @Id
+ @GeneratedValue(strategy=GenerationType.IDENTITY)
+ private int idTipo;
+ @NotEmpty(message="No puede estar vacio")
+ @NotBlank(message="No puede estar en blanco")
+ @Column(name="nombreTipo", length=60, nullable=false)
+ private String nombreTipo;
+ 
+ public TipoDocumento() {
+  super();
+  // TODO Auto-generated constructor stub
+ }
+
+ public TipoDocumento(int idTipo, String nombreTipo) {
+  super();
+  this.idTipo = idTipo;
+  this.nombreTipo = nombreTipo;
+ }
+
+ public int getIdTipo() {
+  return idTipo;
+ }
+
+ public void setIdTipo(int idTipo) {
+  this.idTipo = idTipo;
+ }
+
+ public String getNombreTipo() {
+  return nombreTipo;
+ }
+
+ public void setNombreTipo(String nombreTipo) {
+  this.nombreTipo = nombreTipo;
+ }
+}
+
+
+@Entity
+@Table(name = "Butaca")
+public class Butaca implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int idButaca;
+
+	private int numeroButaca;
+	@ManyToOne
+	@JoinColumn(name = "idSala", nullable=false)
+	private Sala sala;
+	public Butaca() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Butaca(int idButaca, int numeroButaca, Sala sala) {
+		super();
+		this.idButaca = idButaca;
+		this.numeroButaca = numeroButaca;
+		this.sala = sala;
+	}
+	public int getIdButaca() {
+		return idButaca;
+	}
+	public void setIdButaca(int idButaca) {
+		this.idButaca = idButaca;
+	}
+	public int getNumeroButaca() {
+		return numeroButaca;
+	}
+	public void setNumeroButaca(int numeroButaca) {
+		this.numeroButaca = numeroButaca;
+	}
+	public Sala getSala() {
+		return sala;
+	}
+	public void setSala(Sala sala) {
+		this.sala = sala;
+	}
+	
+}
+
+
+@Entity
+@Table (name = "Cargo")
+public class Cargo implements Serializable{
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int idCargo;
+	@NotEmpty(message="No puede estar vacio")
+	@NotBlank(message="No puede estar en blanco")
+	@Column(name="nombreCargo", length=60, nullable=false)
+	private String nombreCargo;
+	public Cargo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Cargo(int idCargo, String nombreCargo) {
+		super();
+		this.idCargo = idCargo;
+		this.nombreCargo = nombreCargo;
+	}
+	public int getIdCargo() {
+		return idCargo;
+	}
+	public void setIdCargo(int idCargo) {
+		this.idCargo = idCargo;
+	}
+	public String getNombreCargo() {
+		return nombreCargo;
+	}
+	public void setNombreCargo(String nombreCargo) {
+		this.nombreCargo = nombreCargo;
+	}
+	
+}
+
+@Entity
+@Table (name ="Dia")
+
+public class Dia  implements Serializable{
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int idDia;
+	@NotEmpty(message="No puede estar vacio")
+	@NotBlank(message="No puede estar en blanco")
+	@Column(name="nombreCargo", length=60, nullable=false)
+	private String nombreDia;
+	
+	
+	
+	public Dia() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Dia(int idDia, String nombreDia) {
+		super();
+		this.idDia = idDia;
+		this.nombreDia = nombreDia;
+	}
+	public int getIdDia() {
+		return idDia;
+	}
+	public void setIdDia(int idDia) {
+		this.idDia = idDia;
+	}
+	public String getNombreDia() {
+		return nombreDia;
+	}
+	public void setNombreDia(String nombreDia) {
+		this.nombreDia = nombreDia;
+	}
+	
+	
+
+}
+
+@Entity
+@Table(name = "Empleado")
+public class Empleado implements Serializable{
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int idEmpleado;
+	@NotEmpty(message="No puede estar vacio")
+	@NotBlank(message="No puede estar en blanco")
+	@Column(name="nombreEmpleado", length=60, nullable=false)
+	private String nombreEmpleado;
+	
+	@NotEmpty(message="No puede estar vacio")
+	@NotBlank(message="No puede estar en blanco")
+	@Column(name="apellidoEmpleado", length=60, nullable=false)
+	private String apellidoEmpleado;
+	
+	@NotEmpty(message="No puede estar vacio")
+	@NotBlank(message="No puede estar en blanco")
+	@Column(name="direccionEmpleado", length=60, nullable=false)
+	private String direccionEmpleado;
+	private int numeroCelular;
+	@ManyToOne
+	@JoinColumn(name = "idTipo", nullable=false)
+	private TipoDocumento tipodocumento;
+	public Empleado() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Empleado(int idEmpleado, String nombreEmpleado, String apellidoEmpleado, String direccionEmpleado,
+			int numeroCelular, TipoDocumento tipodocumento) {
+		super();
+		this.idEmpleado = idEmpleado;
+		this.nombreEmpleado = nombreEmpleado;
+		this.apellidoEmpleado = apellidoEmpleado;
+		this.direccionEmpleado = direccionEmpleado;
+		this.numeroCelular = numeroCelular;
+		this.tipodocumento = tipodocumento;
+	}
+	public int getIdEmpleado() {
+		return idEmpleado;
+	}
+	public void setIdEmpleado(int idEmpleado) {
+		this.idEmpleado = idEmpleado;
+	}
+	public String getNombreEmpleado() {
+		return nombreEmpleado;
+	}
+	public void setNombreEmpleado(String nombreEmpleado) {
+		this.nombreEmpleado = nombreEmpleado;
+	}
+	public String getApellidoEmpleado() {
+		return apellidoEmpleado;
+	}
+	public void setApellidoEmpleado(String apellidoEmpleado) {
+		this.apellidoEmpleado = apellidoEmpleado;
+	}
+	public String getDireccionEmpleado() {
+		return direccionEmpleado;
+	}
+	public void setDireccionEmpleado(String direccionEmpleado) {
+		this.direccionEmpleado = direccionEmpleado;
+	}
+	public int getNumeroCelular() {
+		return numeroCelular;
+	}
+	public void setNumeroCelular(int numeroCelular) {
+		this.numeroCelular = numeroCelular;
+	}
+	public TipoDocumento getTipodocumento() {
+		return tipodocumento;
+	}
+	public void setTipodocumento(TipoDocumento tipodocumento) {
+		this.tipodocumento = tipodocumento;
+	}
+	
+	
+}
+
+@Entity
+@Table(name = "Entrada")
+public class Entrada implements Serializable{
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int idEntrada;
+	@NotEmpty(message="No puede estar vacio")
+	@NotBlank(message="No puede estar en blanco")
+	@Column(name="nombreEntrada", length=60, nullable=false)
+	private String nombreEntrada;
+	@ManyToOne
+	@JoinColumn(name = "idDia", nullable=false)
+	private Dia dia;
+	//@NotEmpty(message="No puede estar vacio")
+	//@NotBlank(message="No puede estar en blanco")
+	private int precioEntrada;
+	public Entrada() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Entrada(int idEntrada, String nombreEntrada, Dia dia, int precioEntrada) {
+		super();
+		this.idEntrada = idEntrada;
+		this.nombreEntrada = nombreEntrada;
+		this.dia = dia;
+		this.precioEntrada = precioEntrada;
+	}
+	public int getIdEntrada() {
+		return idEntrada;
+	}
+	public void setIdEntrada(int idEntrada) {
+		this.idEntrada = idEntrada;
+	}
+	public String getNombreEntrada() {
+		return nombreEntrada;
+	}
+	public void setNombreEntrada(String nombreEntrada) {
+		this.nombreEntrada = nombreEntrada;
+	}
+	public Dia getDia() {
+		return dia;
+	}
+	public void setDia(Dia dia) {
+		this.dia = dia;
+	}
+	public int getPrecioEntrada() {
+		return precioEntrada;
+	}
+	public void setPrecioEntrada(int precioEntrada) {
+		this.precioEntrada = precioEntrada;
+	}
+	
+
+}
+
+@Entity
+@Table(name = "Funcion")
+public class Funcion implements Serializable {
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int idFuncion;
+	@ManyToOne
+	@JoinColumn(name = "idPelicula", nullable=false)
+	private Pelicula pelicula;
+	@NotEmpty(message="No puede estar vacio")
+	@NotBlank(message="No puede estar en blanco")
+	@Column(name="horadiaFuncion",  nullable=false)
+	private String horadiaFuncion;
+	public Funcion() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Funcion(int idFuncion, Pelicula pelicula, String horadiaFuncion) {
+		super();
+		this.idFuncion = idFuncion;
+		this.pelicula = pelicula;
+		this.horadiaFuncion = horadiaFuncion;
+	}
+	public int getIdFuncion() {
+		return idFuncion;
+	}
+	public void setIdFuncion(int idFuncion) {
+		this.idFuncion = idFuncion;
+	}
+	public Pelicula getPelicula() {
+		return pelicula;
+	}
+	public void setPelicula(Pelicula pelicula) {
+		this.pelicula = pelicula;
+	}
+	public String getHoradiaFuncion() {
+		return horadiaFuncion;
+	}
+	public void setHoradiaFuncion(String horadiaFuncion) {
+		this.horadiaFuncion = horadiaFuncion;
+	}
+	
+}
+
+@Entity
+@Table (name = "Genero")
+public class Genero implements Serializable{
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int idGenero;
+	@NotEmpty(message="No puede estar vacio")
+	@NotBlank(message="No puede estar en blanco")
+	@Column(name="nombreGenero", length=60, nullable=false)
+	private String nombreGenero;
+	public Genero() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Genero(int idGenero, String nombreGenero) {
+		super();
+		this.idGenero = idGenero;
+		this.nombreGenero = nombreGenero;
+	}
+	public int getIdGenero() {
+		return idGenero;
+	}
+	public void setIdGenero(int idGenero) {
+		this.idGenero = idGenero;
+	}
+	public String getNombreGenero() {
+		return nombreGenero;
+	}
+	public void setNombreGenero(String nombreGenero) {
+		this.nombreGenero = nombreGenero;
+	}
+	
+}
+
+
+@Entity
+@Table (name = "MetodoPago")
+public class MetodoPago implements Serializable{
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int idMetodoPago;
+	@NotEmpty(message="No puede estar vacio")
+	@NotBlank(message="No puede estar en blanco")
+	@Column(name="nombreMetodoPago", length=60, nullable=false)
+	private String nombreMetodoPago;
+	
+	public MetodoPago() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public int getIdMetodoPago() {
+		return idMetodoPago;
+	}
+	public void setIdMetodoPago(int idMetodoPago) {
+		this.idMetodoPago = idMetodoPago;
+	}
+	public String getNombreMetodoPago() {
+		return nombreMetodoPago;
+	}
+	public void setNombreMetodoPago(String nombreMetodoPago) {
+		this.nombreMetodoPago = nombreMetodoPago;
+	}
+
+	public MetodoPago(int idMetodoPago, String nombreMetodoPago) {
+		super();
+		this.idMetodoPago = idMetodoPago;
+		this.nombreMetodoPago = nombreMetodoPago;
+	}
+	
+	
+	
+	
+
+}
+
