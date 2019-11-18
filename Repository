@@ -1,0 +1,103 @@
+EMPLEADO
+package pe.edu.upc.spring.repository;
+import java.util.List;
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import pe.edu.upc.spring.model.Empleado;
+@Repository
+public interface IEmpleadoDAO extends JpaRepository<Empleado, Integer>{
+	@Query("from Empleado e where e.nombreEmpleado like %:nombreEmpleado%")
+	List<Empleado>buscarEmpleado(@Param("nombreEmpleado")String nombreEmpleado);
+
+}
+
+FUNCION
+package pe.edu.upc.spring.repository;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import org.springframework.stereotype.Repository;
+import pe.edu.upc.spring.model.Funcion;
+@Repository
+public interface IFuncionDAO extends JpaRepository<Funcion,Integer> {
+ List<Funcion> diahorafuncion(Date diahorafuncion);
+}
+
+
+GENERO
+package pe.edu.upc.spring.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+import pe.edu.upc.spring.model.Genero;
+@Repository
+public interface IGeneroDAO extends JpaRepository<Genero, Integer> {
+	@Query("from Genero g where g.nombreGenero like %:nombreGenero%")
+	List<Genero> buscarGenero(@Param("nombreGenero")String nombreGenero);
+}
+
+
+PELICULA 
+package pe.edu.upc.spring.repository;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import pe.edu.upc.spring.model.Pelicula;
+@Repository
+public interface IPeliculaDAO extends JpaRepository<Pelicula,Integer> {
+	@Query("from Pelicula p where p.nombrePelicula like %:nombrePelicula%")
+	List<Pelicula>buscarPelicula(@Param("nombrePelicula")String nombrePelicula);
+}
+
+
+TIPO DE DOCUMENTO
+package pe.edu.upc.spring.repository;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import pe.edu.upc.spring.model.TipoDocumento;
+
+
+@Repository
+public interface ITipoDocumentoDAO extends JpaRepository<TipoDocumento, Integer>
+{
+	@Query("from TipoDocumento t where t.nombreTipoDocumento like %:nombreTipoDocumento%")
+	List<TipoDocumento> buscarNombre(@Param("nombreTipoDocumento") String nombreTipoDocumento);
+}
+
+
+USUARIO 
+package pe.edu.upc.spring.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import pe.edu.upc.spring.model.Usuario;
+
+
+@Repository
+public interface IUsuarioDao extends JpaRepository<Usuario, Long> {
+
+	public Usuario findByUsername(String username);
+
+}
+
