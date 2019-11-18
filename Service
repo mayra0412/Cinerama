@@ -1,0 +1,86 @@
+package pe.edu.upc.spring.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import pe.edu.upc.spring.model.Empleado;
+
+public interface IEmpleadoService {
+	
+	 public boolean insertar(Empleado empleado);
+	 public boolean modificar(Empleado empleado);
+	 public void eliminar(int idEmpleado);
+	 public Optional<Empleado> listarId(int idEmpleado);
+	 List<Empleado> listar();
+	 List<Empleado>buscarEmpleado(String nombreEmpleado);
+}
+
+
+ package pe.edu.upc.spring.service;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import pe.edu.upc.spring.model.Funcion;
+
+public interface IFuncionService {
+	public boolean insertar(Funcion funcion);
+	public boolean modificar(Funcion funcion);
+	public void eliminar(int idFuncion);
+	public Optional<Funcion> listarId(int idFuncion);
+	List<Funcion> listar();
+	List<Funcion> diahorafuncion(Date diahorafuncion);
+	
+}
+
+
+
+package pe.edu.upc.spring.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import pe.edu.upc.spring.model.Genero;
+public interface IGeneroService {
+	public boolean insertar(Genero genero);
+	public boolean modificar(Genero genero);
+	public void eliminar(int idGenero);
+	public Optional<Genero> listarId(int idGenero);
+	List<Genero> listar();
+	List<Genero> buscarGenero(String nombreGenero);
+}
+
+
+package pe.edu.upc.spring.service;
+import java.util.List;
+import java.util.Optional;
+
+
+import pe.edu.upc.spring.model.Pelicula;
+public interface IPeliculaService {
+	public boolean insertar(Pelicula pelicula);
+	public boolean modificar(Pelicula pelicula);
+	public void eliminar(int idPelicula);
+	public Optional<Pelicula> listarId(int idPelicula);
+	List<Pelicula> listar();
+	List<Pelicula> buscarPelicula(String nombrePelicula);
+}
+
+
+
+package pe.edu.upc.spring.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import pe.edu.upc.spring.model.TipoDocumento;
+
+public interface ITipoDocumentoService {
+
+	public boolean insertar(TipoDocumento tipodocumento);
+	public boolean modificar(TipoDocumento tipodocumento);
+	public void eliminar(int idTipoDocumento);
+	public Optional<TipoDocumento> listarId(int idTipoDocumento);
+	List<TipoDocumento> listar();
+	List<TipoDocumento> buscarNombre(String nombreTipoDocumento);
+	
+}
