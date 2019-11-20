@@ -1,0 +1,548 @@
+DIA
+package pe.edu.upc.spring.serviceimpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pe.edu.upc.spring.model.Dia;
+import pe.edu.upc.spring.repository.IDiaDao;
+import pe.edu.upc.spring.service.IDiaService;
+
+@Service
+public class DiaServiceImpl implements IDiaService{
+	@Autowired
+	private IDiaDao dDia;
+	
+	@Override
+	public boolean insertar(Dia dia) {
+		Dia objDia = dDia.save(dia);
+		if(objDia == null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	@Override
+	public boolean modificar(Dia dia) {
+		boolean flag = false;
+		try {
+			dDia.save(dia);
+			flag = true;
+		}
+		catch(Exception ex) {
+			System.out.println("Sucedio un roche");
+		}
+		return flag;
+	}
+	@Override
+	public void eliminar(int idDia) {
+		dDia.deleteById(idDia);
+	}
+	@Override
+	public Optional<Dia> listarId(int idDia){
+		return dDia.findById(idDia);
+	}
+	@Override
+	public List<Dia> listar(){
+		return dDia.findAll();
+	}
+	@Override
+	public List<Dia> buscarDia(String nombreDia){
+		return dDia.buscarDia(nombreDia);
+	}
+}
+
+EMPLEADO
+package pe.edu.upc.spring.serviceimpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+import pe.edu.upc.spring.model.Empleado;
+
+import pe.edu.upc.spring.repository.IEmpleadoDAO;
+
+import pe.edu.upc.spring.service.IEmpleadoService;
+@Service
+public class EmpleadoServiceImpl implements IEmpleadoService {
+
+	@Autowired
+	private IEmpleadoDAO dEmpleado;
+	
+	@Override
+	public boolean insertar(Empleado empleado) {
+		Empleado objEmpleado = dEmpleado.save(empleado);
+		if (objEmpleado == null){
+			return false;
+		}else{
+			return true;
+		}		
+	}
+	
+	@Override
+	public boolean modificar(Empleado empleado) {
+		boolean flag = false;
+		try {
+			dEmpleado.save(empleado);
+			flag = true;
+		}
+		catch(Exception ex) {
+			System.out.println("Sucedio un roche");
+		}
+		return flag;
+	}
+
+	@Override
+	public void eliminar(int idEmpleado) {
+		dEmpleado.deleteById(idEmpleado);
+	}
+	
+	@Override
+		
+	public Optional<Empleado> listarId(int idEmpleado) {
+		return dEmpleado.findById(idEmpleado);
+	}
+	
+	@Override
+	
+	public List<Empleado> buscarEmpleado(String nombreEmpleado) {	
+		return dEmpleado.buscarEmpleado(nombreEmpleado);
+	}
+	
+	@Override
+
+	public List<Empleado> listar() {	
+		return dEmpleado.findAll();
+	}
+}
+
+ENTRADA
+package pe.edu.upc.spring.serviceimpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pe.edu.upc.spring.model.Entrada;
+import pe.edu.upc.spring.repository.IEntradaDAO;
+import pe.edu.upc.spring.service.IEntradaService;
+
+@Service
+public class EntradaServiceImpl implements  IEntradaService{
+	@Autowired
+	private IEntradaDAO dEntrada;
+	@Override
+	public boolean insertar(Entrada entrada) {
+		Entrada objEntrada = dEntrada.save(entrada);
+		if(objEntrada == null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	@Override
+	public boolean modificar(Entrada entrada) {
+		boolean flag = false;
+		try {
+			dEntrada.save(entrada);
+			flag = true;
+		}
+		catch(Exception ex) {
+			System.out.println("Sucedio un roche");
+		}
+		return flag;
+	}
+	@Override
+	public void eliminar(int idEntrada) {
+		dEntrada.deleteById(idEntrada);
+	}
+	@Override
+	public Optional<Entrada> listarId(int idEntrada){
+		return dEntrada.findById(idEntrada);
+	}
+	@Override
+	public List<Entrada> listar(){
+		return dEntrada.findAll();
+	}
+	
+}
+
+FUNCION
+package pe.edu.upc.spring.serviceimpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+
+import pe.edu.upc.spring.model.Funcion;
+import pe.edu.upc.spring.repository.IFuncionDAO;
+import pe.edu.upc.spring.service.IFuncionService;
+
+@Service
+public class FuncionServiceImpl implements IFuncionService{
+	@Autowired
+	private IFuncionDAO dFuncion;
+	
+	@Override
+	public boolean insertar(Funcion funcion) {
+		Funcion objFuncion = dFuncion.save(funcion);
+		if (objFuncion == null){
+			return false;
+		}else{
+			return true;
+		}		
+	}
+	
+	@Override
+	public boolean modificar(Funcion funcion) {
+		boolean flag = false;
+		try {
+			 dFuncion.save(funcion);
+			flag = true;
+		}
+		catch(Exception ex) {
+			System.out.println("Sucedio un roche");
+		}
+		return flag;
+	}
+
+	@Override
+	public void eliminar(int idFuncion) {
+		dFuncion.deleteById(idFuncion);
+	}
+	
+	@Override
+		
+	public Optional<Funcion> listarId(int idFuncion) {
+		return dFuncion.findById(idFuncion);
+	}
+	
+	@Override
+
+	public List<Funcion> listar() {	
+		return dFuncion.findAll();
+	}
+	@Override
+	public List<Funcion> horafuncion(String horafuncion) {
+		return dFuncion.buscarhorafuncion(horafuncion);
+	}
+}
+
+GENERO
+package pe.edu.upc.spring.serviceimpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pe.edu.upc.spring.model.Genero;
+import pe.edu.upc.spring.repository.IGeneroDAO;
+import pe.edu.upc.spring.service.IGeneroService;
+@Service
+public class GeneroServiceImpl implements IGeneroService{
+	
+	@Autowired
+	private IGeneroDAO dGenero;
+	
+	@Override
+	public boolean insertar(Genero genero) {
+		Genero objGenero = dGenero.save(genero);
+		if(objGenero == null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	@Override
+	public boolean modificar(Genero genero) {
+		boolean flag = false;
+		try {
+			dGenero.save(genero);
+			flag = true;
+		}
+		catch(Exception ex) {
+			System.out.println("Sucedio un roche");
+		}
+		return flag;
+	}
+	@Override
+	public void eliminar(int idGenero) {
+		dGenero.deleteById(idGenero);
+	}
+	@Override
+	public Optional<Genero> listarId(int idGenero){
+		return dGenero.findById(idGenero);
+	}
+	@Override
+	public List<Genero> listar(){
+		return dGenero.findAll();
+	}
+	@Override
+	public List<Genero> buscarGenero(String nombreGenero){
+		return dGenero.buscarGenero(nombreGenero);
+	}
+
+}
+
+METODO PAGO
+package pe.edu.upc.spring.serviceimpl;
+
+import java.util.Optional;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import pe.edu.upc.spring.model.MetodoPago;
+import pe.edu.upc.spring.repository.IMetodoPagoDAO;
+import pe.edu.upc.spring.service.IMetodoPagoService;
+
+@Service
+public class MetodoPagoServiceImpl implements IMetodoPagoService {
+	@Autowired
+	private IMetodoPagoDAO dMetodoPago;
+	
+	@Override
+	@Transactional
+	public boolean insertar(MetodoPago metodopago) {
+		MetodoPago objMetodoPago = dMetodoPago.save(metodopago);
+		if (objMetodoPago == null)
+			return false;
+		else
+			return true;
+	}
+	
+	@Override
+	@Transactional
+	public boolean modificar(MetodoPago metodopago) {
+		boolean flag = false;
+		try {
+			dMetodoPago.save(metodopago);
+			flag = true;
+		}
+		catch(Exception ex) {
+			System.out.println("Sucedio un roche");
+		}
+		return flag;
+	}
+
+	@Override
+	@Transactional
+	public void eliminar(int idMetodoPago) {
+		dMetodoPago.deleteById(idMetodoPago);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)	
+	public Optional<MetodoPago> listarId(int idMetodoPago) {
+		return dMetodoPago.findById(idMetodoPago);
+	}
+	
+	
+	@Override
+	@Transactional(readOnly=true)	
+	public List<MetodoPago> listar() {	
+		return dMetodoPago.findAll();
+	}	
+	
+}
+
+PELICULA
+package pe.edu.upc.spring.serviceimpl;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pe.edu.upc.spring.model.Pelicula;
+import pe.edu.upc.spring.repository.IPeliculaDAO;
+import pe.edu.upc.spring.service.IPeliculaService;
+@Service
+public class PeliculaServiceImpl  implements  IPeliculaService{
+
+	@Autowired
+	private IPeliculaDAO dPelicula;
+	@Override
+	public boolean insertar(Pelicula pelicula) {
+		Pelicula objPelicula = dPelicula.save(pelicula);
+		if(objPelicula == null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	@Override
+	public boolean modificar(Pelicula pelicula) {
+		boolean flag = false;
+		try {
+			dPelicula.save(pelicula);
+			flag = true;
+		}
+		catch(Exception ex) {
+			System.out.println("Sucedio un roche");
+		}
+		return flag;
+	}
+	@Override
+	public void eliminar(int idPelicula) {
+		dPelicula.deleteById(idPelicula);
+	}
+	@Override
+	public Optional<Pelicula> listarId(int idPelicula){
+		return dPelicula.findById(idPelicula);
+	}
+	@Override
+	public List<Pelicula> listar(){
+		return dPelicula.findAll();
+	}
+	@Override
+	public List<Pelicula> buscarPelicula(String nombrePelicula){
+		return dPelicula.buscarPelicula(nombrePelicula);
+	}
+}
+
+SALA
+package pe.edu.upc.spring.serviceimpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pe.edu.upc.spring.model.Sala;
+import pe.edu.upc.spring.repository.ISalaDAO;
+import pe.edu.upc.spring.service.ISalaService;
+@Service
+public class SalaServiceImpl implements  ISalaService{
+	@Autowired
+	private ISalaDAO dSala;
+	@Override
+	public boolean insertar(Sala sala) {
+		Sala objSala = dSala.save(sala);
+		if(objSala == null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	@Override
+	public boolean modificar(Sala sala) {
+		boolean flag = false;
+		try {
+			dSala.save(sala);
+			flag = true;
+		}
+		catch(Exception ex) {
+			System.out.println("Sucedio un roche");
+		}
+		return flag;
+	}
+	@Override
+	public void eliminar(int idSala) {
+		dSala.deleteById(idSala);
+	}
+	@Override
+	public Optional<Sala> listarId(int idSala){
+		return dSala.findById(idSala);
+	}
+	@Override
+	public List<Sala> listar(){
+		return dSala.findAll();
+	}
+	@Override
+	public List<Sala> buscarSala(String nombreSala){
+		return dSala.buscarSala(nombreSala);
+	}
+}
+
+TIPO DOCUMENTO
+package pe.edu.upc.spring.serviceimpl;
+
+import java.util.Optional;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import pe.edu.upc.spring.model.TipoDocumento;
+import pe.edu.upc.spring.repository.ITipoDocumentoDAO;
+import pe.edu.upc.spring.service.ITipoDocumentoService;
+
+@Service
+public class TipoDocumentoServiceImpl implements ITipoDocumentoService {
+	
+	
+	@Autowired
+	private ITipoDocumentoDAO dRace;
+	
+	@Override
+	@Transactional
+	public boolean insertar(TipoDocumento tipodocumento) {
+		TipoDocumento objTipoDocumento = dRace.save(tipodocumento);
+		if (objTipoDocumento == null)
+			return false;
+		else
+			return true;
+	}
+	
+	@Override
+	@Transactional
+	public boolean modificar(TipoDocumento tipodocumento) {
+		boolean flag = false;
+		try {
+			dRace.save(tipodocumento);
+			flag = true;
+		}
+		catch(Exception ex) {
+			System.out.println("Sucedio un roche");
+		}
+		return flag;
+	}
+
+	@Override
+	@Transactional
+	public void eliminar(int idTipoDocumento) {
+		dRace.deleteById(idTipoDocumento);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)	
+	public Optional<TipoDocumento> listarId(int idTipoDocumento) {
+		return dRace.findById(idTipoDocumento);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)	
+	public List<TipoDocumento> buscarNombre(String nombreTipoDocumento) {	
+		return dRace.buscarNombre(nombreTipoDocumento);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)	
+	public List<TipoDocumento> listar() {	
+		return dRace.findAll();
+	}	
+	
+	
+}
+
+
