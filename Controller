@@ -1,0 +1,676 @@
+package pe.edu.upc.spring.controller;
+
+import java.text.ParseException;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import pe.edu.upc.spring.model.Empleado;
+import pe.edu.upc.spring.service.IEmpleadoService;
+import pe.edu.upc.spring.service.ITipoDocumentoService;
+@Controller
+@RequestMapping("/empleado")
+public class EmpleadoController {
+	@Autowired
+	private IEmpleadoService eService;
+	@Autowired 
+	private ITipoDocumentoService tService;
+	@RequestMapping("/")
+	public String irEmpleado(Map<String,Object>model) {
+		model.put("listaEmpleados",eService.listar());
+		return "listEmpleado";
+	}
+	@RequestMapping("/irRegistrar")
+	public String irRegistrar(Model model) {
+		model.addAttribute("empleado",new Empleado());
+		model.addAttribute("listaTipos",tService.listar());
+		return "empleado";
+	}
+	@RequestMapping("/registrar") /* permite controlar redirecciones */
+	public String registrar(@ModelAttribute @Valid Empleado objEmpleado, BindingResult binRes, Model model)
+			throws ParseException {
+		if (binRes.hasErrors()) {
+			model.addAttribute("listatipos", tService.listar());
+			return "empleado";
+		} else {
+			boolean flag =eService.insertar(objEmpleado);
+			if (flag) {
+				return "redirect:/empleado/listar";
+			} else {
+				model.addAttribute("mensaje", "OcurriÃ³ un error");
+				return "redirect:/empleado/irRegistrar";
+			}
+		}
+	}
+	@RequestMapping("/actualizar")
+	public String actualizar(@ModelAttribute @Valid Empleado objEmpleado,BindingResult binRes, Model model, RedirectAttributes objRedir ) 
+			throws ParseException {
+		if(binRes.hasErrors()) {
+			return "redirect:/empleado/listar";
+		}
+		else {
+			boolean flag = eService.modificar(objEmpleado);
+			if(flag) {
+				objRedir.addFlashAttribute("mensaje", "se actualizo correctamente");
+				return "redirect:/empleado/listar";
+			}
+			else{
+				model.addAttribute("mensaje","Ocurrio un roche");
+				return "redirect:/empleado/listar";
+			}
+		}
+	}
+	@RequestMapping("/modificar/{id}")
+	public String modificar (@PathVariable int id, Model model, 
+			RedirectAttributes objRedir) 
+	{
+		Optional<Empleado>objEmpleado =eService.listarId(id);
+		if(objEmpleado ==null) {
+			objRedir.addFlashAttribute("mensaje", "ocurrio un roche");
+			return "redirect:/empleado/listar";
+		}
+		else {
+			model.addAttribute("listaTipos", tService.listar());
+			if (objEmpleado.isPresent())
+				objEmpleado.ifPresent(o -> model.addAttribute("empleado", o));			
+
+			return "empleado";
+		}
+	}
+	@RequestMapping("/eliminar")
+	public String eliminar(Map<String, Object> model, @RequestParam(value="id") Integer id) {
+		if (id!=null && id>0) {
+			eService.eliminar(id);
+			model.put("listaEmpleados", eService.listar());
+		}
+		return "listEmpleado";
+	}
+	@RequestMapping("/listar")
+	public String listar(Map<String, Object> model) {
+		model.put("listaEmpleados", eService.listar());
+		return "listEmpleado";
+	}
+	
+	@RequestMapping("/listarId")
+	public String listarId(Map<String, Object> model, @ModelAttribute Empleado empleado) throws ParseException {
+		eService.listarId(empleado.getIdEmpleado());
+		return "listEmpleado";		
+	}
+	@RequestMapping("/buscar")
+	public String buscar(Map<String, Object> model, @ModelAttribute Empleado empleado) throws ParseException {
+		List<Empleado> listaEmpleados;
+		empleado.setNombreEmpleado(empleado.getNombreEmpleado());
+		listaEmpleados = eService.buscarEmpleado(empleado.getNombreEmpleado());
+		
+		if (listaEmpleados.isEmpty()) {
+			model.put("mensaje", "No se encontro");						
+		}
+		model.put("listaEmpleados", listaEmpleados);
+		return "buscarEmpleado";		
+	}
+	
+	@RequestMapping("/irBuscar")
+	public String irBuscar(Model model) {
+		model.addAttribute("empleado", new Empleado());
+		return "buscarEmpleado";
+	}
+}
+
+
+
+
+
+	@RequestMapping("/registrar") /* permite controlar redirecciones */
+	public String registrar(@ModelAttribute @Valid Funcion objFuncion, BindingResult binRes, Model model)
+			throws ParseException {
+		if (binRes.hasErrors()) {
+			model.addAttribute("listaPeliculas", pService.listar());
+			return "funcion";
+		} else {
+			boolean flag =fService.insertar(objFuncion);
+			if (flag) {
+				return "redirect:/funcion/listar";
+			} else {
+				model.addAttribute("mensaje", "OcurriÃ³ un error");
+				return "redirect:/funcion/irRegistrar";
+			}
+		}
+	}
+	@RequestMapping("/actualizar")
+	public String actualizar(@ModelAttribute @Valid  Funcion objFuncion,BindingResult binRes, Model model, RedirectAttributes objRedir ) 
+			throws ParseException {
+		if(binRes.hasErrors()) {
+			return "redirect:/funcion/listar";
+		}
+		else {
+			boolean flag = fService.modificar(objFuncion);
+			if(flag) {
+				objRedir.addFlashAttribute("mensaje", "se actualizo correctamente");
+				return "redirect:/funcion/listar";
+			}
+			else{
+				model.addAttribute("mensaje","Ocurrio un roche");
+				return "redirect:/funcion/listar";
+			}
+		}
+	}
+	@RequestMapping("/modificar/{id}")
+	public String modificar (@PathVariable int id, Model model, 
+			RedirectAttributes objRedir) 
+	{
+		Optional<Funcion>objFuncion =fService.listarId(id);
+		if(objFuncion ==null) {
+			objRedir.addFlashAttribute("mensaje", "ocurrio un roche");
+			return "redirect:/funcion/listar";
+		}
+		else {
+			model.addAttribute("listaPeliculas", pService.listar());
+			if (objFuncion.isPresent())
+				objFuncion.ifPresent(o -> model.addAttribute("funcion", o));			
+
+			return "funcion";
+		}
+	}
+	@RequestMapping("/eliminar")
+	public String eliminar(Map<String, Object> model, @RequestParam(value="id") Integer id) {
+		if (id!=null && id>0) {
+			fService.eliminar(id);
+			model.put("listaFunciones", fService.listar());
+		}
+		return "listFuncion";
+	}
+	@RequestMapping("/listar")
+	public String listar(Map<String, Object> model) {
+		model.put("listaFunciones", fService.listar());
+		return "listFuncion";
+	}
+	
+	@RequestMapping("/listarId")
+	public String listarId(Map<String, Object> model, @ModelAttribute Funcion funcion) throws ParseException {
+		fService.listarId(funcion.getIdFuncion());
+		return "listFuncion";		
+	}
+	@RequestMapping("/buscar")
+	public String buscar(Map<String, Object> model, @ModelAttribute Funcion funcion) throws ParseException {
+		List<Funcion> listaFunciones;
+		funcion.setDiahorafuncion(funcion.getDiahorafuncion());
+		listaFunciones = fService.diahorafuncion(funcion.getDiahorafuncion());
+		
+		if (listaFunciones.isEmpty()) {
+			model.put("mensaje", "No se encontro");						
+		}
+		model.put("listaFunciones", listaFunciones);
+		return "buscarFuncion";		
+	}
+	
+	@RequestMapping("/irBuscar")
+	public String irBuscar(Model model) {
+		model.addAttribute("funcion", new Funcion());
+		return "buscarFuncion";
+	}
+}
+
+
+
+package pe.edu.upc.spring.controller;
+
+import java.text.ParseException;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import pe.edu.upc.spring.model.Genero;
+import pe.edu.upc.spring.service.IGeneroService;
+@Controller
+@RequestMapping("/genero")
+public class GeneroController {
+	
+	@Autowired
+	private IGeneroService gService;
+	@RequestMapping("/bienvenido")
+	public String irGeneroBienvenido() {
+		return "bienvenido";		
+	}
+	
+	@RequestMapping("/")
+	public String irGenero(Map<String, Object> model) {
+		model.put("listaGeneros", gService.listar());
+		return "listGenero";
+	}
+	
+	@RequestMapping("/irRegistrar")
+	public String irRegistrar(Model model) {
+		model.addAttribute("genero", new Genero());
+		return "genero";
+	}
+	
+	@RequestMapping("/registrar")
+	public String tipodocumento(@ModelAttribute @Valid Genero objGenero, 
+			BindingResult binRes, Model model ) throws ParseException 
+	{
+		if (binRes.hasErrors()) {
+			return "genero";
+		}
+		else {
+			boolean flag = gService.insertar(objGenero);
+			if (flag) {
+				return "redirect:/genero/listar";
+			}
+			else {
+				model.addAttribute("mensaje", "Ocurrio un roche");
+				return "redirect:/genero/irRegistrar";
+			}
+		}
+	}
+	
+	@RequestMapping("/actualizar")
+	public String actualizar(@ModelAttribute @Valid Genero objGenero, 
+			BindingResult binRes, Model model, RedirectAttributes objRedir ) 
+					throws ParseException {
+		if (binRes.hasErrors()) {
+			return "redirect:/genero/listar";
+		}
+		else {
+			boolean flag = gService.modificar(objGenero);
+			if (flag) {
+				objRedir.addFlashAttribute("mensaje", "se actualizo correctamente");
+				return "redirect:/genero/listar";
+			}
+			else {
+				model.addAttribute("mensaje", "Ocurrio un roche");
+				return "redirect:/genero/irRegistrar";
+			}			
+		}
+	}
+	
+	@RequestMapping("/modificar/{id}")
+	public String modificar (@PathVariable int id, Model model, RedirectAttributes objRedir) {
+		Optional<Genero> objGenero = gService.listarId(id);
+		if (objGenero == null) {
+			objRedir.addFlashAttribute("mensaje", "ocurrio un error");
+			return "redirect:/genero/listar";
+		}
+		else {
+			model.addAttribute("genero", objGenero);
+			return "genero";
+		}
+	}
+	
+	@RequestMapping("/eliminar")
+	public String eliminar(Map<String, Object> model, @RequestParam(value="id") Integer id) {
+		try {
+			if (id!=null && id>0) {
+				gService.eliminar(id);
+				model.put("listaGeneros", gService.listar());
+			}
+		}
+		catch(Exception ex) {
+			System.out.println(ex.getMessage());
+			model.put("mensaje", "No se puede eliminar un genero asignado");
+			model.put("listaGeneros", gService.listar());
+		}
+		return "listGenero";
+	}
+	
+	@RequestMapping("/listar")
+	public String listar(Map<String, Object> model) {
+		model.put("listaGeneros", gService.listar());
+		return "listGenero";
+	}
+	
+	@RequestMapping("/listarId")
+	public String listarId(Map<String, Object> model, @ModelAttribute Genero genero) throws ParseException {
+		gService.listarId(genero.getIdGenero());
+		return "listGenero";		
+	}
+	@RequestMapping("/buscar")
+	public String buscar(Map<String, Object> model, @ModelAttribute Genero genero) throws ParseException {
+		List<Genero> listaGeneros;
+		genero.setNombreGenero(genero.getNombreGenero());
+		listaGeneros = gService.buscarGenero(genero.getNombreGenero());
+		
+		if (listaGeneros.isEmpty()) {
+			model.put("mensaje", "No se encontro");						
+		}
+		model.put("listaGeneros", listaGeneros);
+		return "buscarGenero";		
+	}
+	
+	@RequestMapping("/irBuscar")
+	public String irBuscar(Model model) {
+		model.addAttribute("genero", new Genero());
+		return "buscarGenero";
+	}
+}
+
+
+package pe.edu.upc.spring.controller;
+
+import java.security.Principal;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+@Controller
+public class LoginController {
+
+	@GetMapping("/login")
+	public String login(@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "logout", required = false) String logout, Model model, Principal principal,
+			RedirectAttributes flash) {
+		
+		if (principal != null) {
+			flash.addFlashAttribute("info", "Ya ha inciado sesión anteriormente");
+			return "redirect:/tipodocumento/listar";
+		}
+
+		if (error != null) {
+			model.addAttribute("error",
+					"Error en el login: Nombre de usuario o contraseña incorrecta, por favor vuelva a intentarlo!");
+			return "login";
+		}
+
+		if (logout != null) {
+			model.addAttribute("success", "Ha cerrado sesión con éxito!");
+			return "login";
+		}
+		
+		return "login";
+
+	}
+}
+
+
+
+
+package pe.edu.upc.spring.controller;
+import java.text.ParseException;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+
+
+import pe.edu.upc.spring.model.Pelicula;
+import pe.edu.upc.spring.service.IPeliculaService;
+import pe.edu.upc.spring.service.IGeneroService;
+@Controller
+@RequestMapping("/pelicula")
+public class PeliculaController {
+	@Autowired
+	private IPeliculaService pService;
+	@Autowired
+	private IGeneroService gService;
+	@RequestMapping("/")
+	public String irPelicula(Map<String,Object>model) {
+		model.put("listaPeliculas",pService.listar());
+		return "listPelicula";
+	}
+	@RequestMapping("/irRegistrar")
+	public String irRegistrar(Model model) {
+		model.addAttribute("pelicula",new Pelicula());
+		model.addAttribute("listaGeneros",gService.listar());
+		return "pelicula";
+	}
+	@RequestMapping("/registrar") /* permite controlar redirecciones */
+	public String registrar(@ModelAttribute @Valid Pelicula objPelicula, BindingResult binRes, Model model)
+			throws ParseException {
+		if (binRes.hasErrors()) {
+			model.addAttribute("listaGeneros", gService.listar());
+			return "pelicula";
+		} else {
+			boolean flag =pService.insertar(objPelicula);
+			if (flag) {
+				return "redirect:/pelicula/listar";
+			} else {
+				model.addAttribute("mensaje", "OcurriÃ³ un error");
+				return "redirect:/pelicula/irRegistrar";
+			}
+		}
+	}
+	@RequestMapping("/actualizar")
+	public String actualizar(@ModelAttribute @Valid Pelicula objPelicula,BindingResult binRes, Model model, RedirectAttributes objRedir ) 
+			throws ParseException {
+		if(binRes.hasErrors()) {
+			return "redirect:/pelicula/listar";
+		}
+		else {
+			boolean flag = pService.modificar(objPelicula);
+			if(flag) {
+				objRedir.addFlashAttribute("mensaje", "se actualizo correctamente");
+				return "redirect:/pelicula/listar";
+			}
+			else{
+				model.addAttribute("mensaje","Ocurrio un roche");
+				return "redirect:/pelicula/listar";
+			}
+		}
+	}
+	@RequestMapping("/modificar/{id}")
+	public String modificar (@PathVariable int id, Model model, 
+			RedirectAttributes objRedir) 
+	{
+		Optional<Pelicula>objPelicula =pService.listarId(id);
+		if(objPelicula ==null) {
+			objRedir.addFlashAttribute("mensaje", "ocurrio un roche");
+			return "redirect:/pelicula/listar";
+		}
+		else {
+			model.addAttribute("listaGeneros", gService.listar());
+			if (objPelicula.isPresent())
+				objPelicula.ifPresent(o -> model.addAttribute("pelicula", o));			
+
+			return "pelicula";
+		}
+	}
+	@RequestMapping("/eliminar")
+	public String eliminar(Map<String, Object> model, @RequestParam(value="id") Integer id) {
+		if (id!=null && id>0) {
+			pService.eliminar(id);
+			model.put("listaPeliculas", pService.listar());
+		}
+		return "listPelicula";
+	}
+	@RequestMapping("/listar")
+	public String listar(Map<String, Object> model) {
+		model.put("listaPeliculas", pService.listar());
+		return "listPelicula";
+	}
+	
+	@RequestMapping("/listarId")
+	public String listarId(Map<String, Object> model, @ModelAttribute Pelicula pelicula) throws ParseException {
+		pService.listarId(pelicula.getIdPelicula());
+		return "listEmpleado";		
+	}
+	@RequestMapping("/buscar")
+	public String buscar(Map<String, Object> model, @ModelAttribute Pelicula pelicula) throws ParseException {
+		List<Pelicula> listaPeliculas;
+		pelicula.setNombrePelicula(pelicula.getNombrePelicula());
+		listaPeliculas = pService.buscarPelicula(pelicula.getNombrePelicula());
+		
+		if (listaPeliculas.isEmpty()) {
+			model.put("mensaje", "No se encontro");						
+		}
+		model.put("listaPeliculas", listaPeliculas);
+		return "buscarPelicula";		
+	}
+	
+	@RequestMapping("/irBuscar")
+	public String irBuscar(Model model) {
+		model.addAttribute("pelicula", new Pelicula());
+		return "buscarPelicula";
+	}
+}
+
+
+
+
+package pe.edu.upc.spring.controller;
+
+import java.text.ParseException;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+
+
+import pe.edu.upc.spring.model.TipoDocumento;
+import pe.edu.upc.spring.service.ITipoDocumentoService;
+
+@Controller
+@RequestMapping("/tipodocumento")
+public class TipoDocumentoController {
+	
+	@Autowired
+	private ITipoDocumentoService rService;
+	
+	@RequestMapping("/bienvenido")
+	public String irRaceBienvenido() {
+		return "bienvenido";		
+	}
+	
+	@RequestMapping("/")
+	public String irRace(Map<String, Object> model) {
+		model.put("listaTipos", rService.listar());
+		return "listTipo";
+	}
+	
+	@RequestMapping("/irRegistrar")
+	public String irRegistrar(Model model) {
+		model.addAttribute("tipodocumento", new TipoDocumento());
+		return "tipodocumento";
+	}
+	
+	@RequestMapping("/registrar")
+	public String tipodocumento(@ModelAttribute @Valid TipoDocumento objTipoDocumento, 
+			BindingResult binRes, Model model ) throws ParseException 
+	{
+		if (binRes.hasErrors()) {
+			return "tipodocumento";
+		}
+		else {
+			boolean flag = rService.insertar(objTipoDocumento);
+			if (flag) {
+				return "redirect:/tipodocumento/listar";
+			}
+			else {
+				model.addAttribute("mensaje", "Ocurrio un roche");
+				return "redirect:/tipodocumento/irRegistrar";
+			}
+		}
+	}
+	
+	@RequestMapping("/actualizar")
+	public String actualizar(@ModelAttribute @Valid TipoDocumento objTipoDocumento, 
+			BindingResult binRes, Model model, RedirectAttributes objRedir ) 
+					throws ParseException {
+		if (binRes.hasErrors()) {
+			return "redirect:/tipodocumento/listar";
+		}
+		else {
+			boolean flag = rService.modificar(objTipoDocumento);
+			if (flag) {
+				objRedir.addFlashAttribute("mensaje", "se actualizo correctamente");
+				return "redirect:/tipodocumento/listar";
+			}
+			else {
+				model.addAttribute("mensaje", "Ocurrio un roche");
+				return "redirect:/tipodocumento/irRegistrar";
+			}			
+		}
+	}
+	
+	@RequestMapping("/modificar/{id}")
+	public String modificar (@PathVariable int id, Model model, RedirectAttributes objRedir) {
+		Optional<TipoDocumento> objTipoDocumento = rService.listarId(id);
+		if (objTipoDocumento == null) {
+			objRedir.addFlashAttribute("mensaje", "ocurrio un error");
+			return "redirect:/tipodocumento/listar";
+		}
+		else {
+			model.addAttribute("tipodocumento", objTipoDocumento);
+			return "tipodocumento";
+		}
+	}
+	
+	@RequestMapping("/eliminar")
+	public String eliminar(Map<String, Object> model, @RequestParam(value="id") Integer id) {
+		try {
+			if (id!=null && id>0) {
+				rService.eliminar(id);
+				model.put("listaTipos", rService.listar());
+			}
+		}
+		catch(Exception ex) {
+			System.out.println(ex.getMessage());
+			model.put("mensaje", "No se puede eliminar una tipo doc asignada");
+			model.put("listaTipos", rService.listar());
+		}
+		return "listTipo";
+	}
+	
+	@RequestMapping("/listar")
+	public String listar(Map<String, Object> model) {
+		model.put("listaTipos", rService.listar());
+		return "listTipo";
+	}
+	
+	@RequestMapping("/listarId")
+	public String listarId(Map<String, Object> model, @ModelAttribute TipoDocumento tipodocumento) throws ParseException {
+		rService.listarId(tipodocumento.getIdTipoDocumento());
+		return "listTipo";		
+	}
+		
+}
+
+
+
+
+
