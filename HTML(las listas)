@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>Dias</title>
+<script type="text/javascript"
+	src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.js"></script>
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css"></link>
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+	<div th:replace="fragments/header :: header"></div>
+
+	<div class="container">
+		<form id="myform">
+			<div class="row clearfix">
+				<div class="col-md-12 column" >
+					<a  style="border-bottom-color: green" th:href="@{/dia/irRegistrar}" id="add-row" type="button"
+						class="btn btn-primary btn-md left-block"> <span
+						class="glyphicon glyphicon-plus" ></span> Dia
+					</a>
+					<a  style="border-bottom-color: green" th:href="@{/dia/irBuscar}" id="add-row" type="button"
+						class="btn btn-primary btn-md left-block"> <span
+						class="glyphicon glyphicon-search" ></span> 
+					</a>
+					<table class="table table-bordered table-hover table-striped"
+						id="tab_logic">
+						<thead>
+							<tr>
+								<th class="text-center">CODIGO</th>
+								<th class="text-center">Dia</th>
+								<th class="text-center">OPERACIÓN</th>
+								<th class="text-center">OPERACIÓN</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="rac: ${listaDias}">
+								<td th:text="${rac.idDia}"></td>
+								<td th:text="${rac.nombreDia}"></td>
+								<td><a th:href="@{/dia/eliminar?id=}+${rac.idDia}"><p> Eliminar <span class="glyphicon glyphicon-trash"></span></p></a></td>
+								<td><a th:href="@{'/dia/modificar/' + ${rac.idDia}}"><p> Modificar <span class="glyphicon glyphicon-edit"></span></p> </a></td>
+							</tr>
+						</tbody>
+
+					</table>
+					
+				</div>
+			</div>
+			<div th:if="${mensaje}" class="alert alert-danger">
+			<p th:text="${mensaje}"></p>
+			</div>
+		</form>
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>EMPLEADOS</title>
+<script type="text/javascript"
+	src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.js"></script>
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css"></link>
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+	<div th:replace="fragments/header :: header"></div>
+
+	<div class="container">
+		<form id="myform">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<a style="border-bottom-color: green" th:href="@{/empleado/irRegistrar}"
+						id="add-row" type="button"
+						class="btn btn-primary btn-md left-block"> <span
+						class="glyphicon glyphicon-plus"></span> Empleado
+					</a>
+					<a style="border-bottom-color: green" th:href="@{/empleado/irBuscar}"
+						id="add-row" type="button"
+						class="btn btn-primary btn-md left-block"> <span
+						class="glyphicon glyphicon-search"></span> 
+					</a>
+					
+					<table class="table table-bordered table-hover table-striped"
+						id="tab_logic">
+						<thead>
+							<tr>
+								<th class="text-center">CODIGO</th>
+								<th class="text-center">NOMBRE EMPLEADO</th>
+								<th class="text-center">DIRECCION EMPLEADO</th>
+								<th class="text-center">FECHA DE NACIMIENTO</th>
+								<th class="text-center">NUMERO DE CELULAR</th>
+								<th class="text-center">TIPODOCUMENTO</th>
+								<th class="text-center">NUMERO DE DOCUMENTO</th>
+								<th class="text-center">OPERACIÓN</th>
+								<th class="text-center">OPERACIÓN</th>
+								
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="p: ${listaEmpleados}">
+							<!-- th:text muestra una linea de texto -->
+								<td th:text="${p.idEmpleado}"></td>
+								<td th:text="${p.nombreEmpleado}"></td>
+								<td th:text="${p.direccionEmpleado}"></td>
+								<td th:text="${#dates.format(p.birthDateEmpleado,'dd/MM/yyyy ')}"></td>
+								<td th:text="${p.numeroCelular}"></td>
+								<td th:text="${p.tipodocumento.nombreTipoDocumento}"></td>
+								<td th:text="${p.numeroDocumento}"></td>
+								
+								<!-- th:href Redirecciona -->
+								<td><a th:href="@{/empleado/eliminar?id=}+${p.idEmpleado}"><p> Eliminar <span class="glyphicon glyphicon-trash"></span></p></a></td>
+								<td><a th:href="@{'/empleado/modificar/' + ${p.idEmpleado}}"><p> Modificar <span class="glyphicon glyphicon-edit"></span></p> </a></td>
+
+
+							</tr>
+						</tbody>
+
+					</table>
+
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>ENTRADAS</title>
+<script type="text/javascript"
+	src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.js"></script>
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css"></link>
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+	<div th:replace="fragments/header :: header"></div>
+
+	<div class="container">
+		<form id="myform">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<a style="border-bottom-color: green" th:href="@{/entrada/irRegistrar}"
+						id="add-row" type="button"
+						class="btn btn-primary btn-md left-block"> <span
+						class="glyphicon glyphicon-plus"></span> Entrada
+					</a>
+					
+					<table class="table table-bordered table-hover table-striped"
+						id="tab_logic">
+						<thead>
+							<tr>
+								<th class="text-center">CODIGO</th>
+								<th class="text-center">NOMBRE</th>
+								<th class="text-center">DIA</th>
+								<th class="text-center">PRECIO</th>
+								<th class="text-center">OPERACIÓN</th>
+								<th class="text-center">OPERACIÓN</th>
+								
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="en: ${listaEntradas}">
+							<!-- th:text muestra una linea de texto -->
+								<td th:text="${en.idEntrada}"></td>
+								<td th:text="${en.nombreEntrada}"></td>
+								<td th:text="${en.dia.nombreDia}"></td>
+								<td th:text="${en.precioEntrada}"></td>
+								
+								<!-- th:href Redirecciona -->
+								<td><a th:href="@{/entrada/eliminar?id=}+${en.idEntrada}"><p> Eliminar <span class="glyphicon glyphicon-trash"></span></p></a></td>
+								<td><a th:href="@{'/entrada/modificar/' + ${en.idEntrada}}"><p> Modificar <span class="glyphicon glyphicon-edit"></span></p> </a></td>
+
+
+							</tr>
+						</tbody>
+
+					</table>
+
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>Funciones</title>
+<script type="text/javascript"
+	src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.js"></script>
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css"></link>
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+	<div th:replace="fragments/header :: header"></div>
+
+	<div class="container">
+		<form id="myform">
+			<div class="row clearfix">
+				<div class="col-md-12 column" >
+					<a  style="border-bottom-color: green" th:href="@{/funcion/irRegistrar}" id="add-row" type="button"
+						class="btn btn-primary btn-md left-block"> <span
+						class="glyphicon glyphicon-plus" ></span> Funcion
+					</a>
+					<a  style="border-bottom-color: green" th:href="@{funcion/irBuscar}" id="add-row" type="button"
+						class="btn btn-primary btn-md left-block"> <span
+						class="glyphicon glyphicon-search" ></span> 
+					</a>
+					<table class="table table-bordered table-hover table-striped"
+						id="tab_logic">
+						<thead>
+							<tr>
+								<th class="text-center">CODIGO</th>
+								<th class="text-center">PELICULA</th>
+								<th class="text-center">DIA Y HORA DE LA FUNCION</th>
+								<th class="text-center">OPERACIÓN</th>
+								<th class="text-center">OPERACIÓN</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="rac: ${listaFunciones}">
+								<td th:text="${rac.idFuncion}"></td>
+								<td th:text="${rac.pelicula.nombrePelicula}"></td>
+								
+								<td th:text="${#dates.format(rac.horafuncion,'HH:mm')}"></td>
+								<td><a th:href="@{/funcion/eliminar?id=}+${rac.idFuncion}"><p> Eliminar <span class="glyphicon glyphicon-trash"></span></p></a></td>
+								<td><a th:href="@{'/funcion/modificar/' + ${rac.idFuncion}}"><p> Modificar <span class="glyphicon glyphicon-edit"></span></p> </a></td>
+							</tr>
+						</tbody>
+
+					</table>
+					
+				</div>
+			</div>
+			<div th:if="${mensaje}" class="alert alert-danger">
+			<p th:text="${mensaje}"></p>
+			</div>
+		</form>
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>Generos</title>
+<script type="text/javascript"
+	src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.js"></script>
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css"></link>
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+	<div th:replace="fragments/header :: header"></div>
+
+	<div class="container">
+		<form id="myform">
+			<div class="row clearfix">
+				<div class="col-md-12 column" >
+					<a  style="border-bottom-color: green" th:href="@{/genero/irRegistrar}" id="add-row" type="button"
+						class="btn btn-primary btn-md left-block"> <span
+						class="glyphicon glyphicon-plus" ></span> Genero
+					</a>
+					<a  style="border-bottom-color: green" th:href="@{/genero/irBuscar}" id="add-row" type="button"
+						class="btn btn-primary btn-md left-block"> <span
+						class="glyphicon glyphicon-search" ></span> 
+					</a>
+					<table class="table table-bordered table-hover table-striped"
+						id="tab_logic">
+						<thead>
+							<tr>
+								<th class="text-center">CODIGO</th>
+								<th class="text-center">Genero</th>
+								<th class="text-center">OPERACIÓN</th>
+								<th class="text-center">OPERACIÓN</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="rac: ${listaGeneros}">
+								<td th:text="${rac.idGenero}"></td>
+								<td th:text="${rac.nombreGenero}"></td>
+								<td><a th:href="@{/genero/eliminar?id=}+${rac.idGenero}"><p> Eliminar <span class="glyphicon glyphicon-trash"></span></p></a></td>
+								<td><a th:href="@{'/genero/modificar/' + ${rac.idGenero}}"><p> Modificar <span class="glyphicon glyphicon-edit"></span></p> </a></td>
+							</tr>
+						</tbody>
+
+					</table>
+					
+				</div>
+			</div>
+			<div th:if="${mensaje}" class="alert alert-danger">
+			<p th:text="${mensaje}"></p>
+			</div>
+		</form>
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>MetodoPago</title>
+<script type="text/javascript"
+	src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.js"></script>
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css"></link>
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+	<div th:replace="fragments/header :: header"></div>
+
+	<div class="container">
+		<form id="myform">
+			<div class="row clearfix">
+				<div class="col-md-12 column" >
+					<a  style="border-bottom-color: green" th:href="@{/metodopago/irRegistrar}" id="add-row" type="button"
+						class="btn btn-primary btn-md left-block"> <span
+						class="glyphicon glyphicon-plus" ></span> Metodo de Pago
+					</a>
+					
+					<table class="table table-bordered table-hover table-striped"
+						id="tab_logic">
+						<thead>
+							<tr>
+								<th class="text-center">CODIGO</th>
+								<th class="text-center">Metodo de Pago</th>
+								<th class="text-center">OPERACIÓN</th>
+								<th class="text-center">OPERACIÓN</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="rac: ${listaMetodos}">
+								<td th:text="${rac.idMetodoPago}"></td>
+								<td th:text="${rac.nombreMetodoPago}"></td>
+								<td><a th:href="@{/metodopago/eliminar?id=}+${rac.idMetodoPago}"><p> Eliminar <span class="glyphicon glyphicon-trash"></span></p></a></td>
+								<td><a th:href="@{'/metodopago/modificar/' + ${rac.idMetodoPago}}"><p> Modificar <span class="glyphicon glyphicon-edit"></span></p> </a></td>
+							</tr>
+						</tbody>
+
+					</table>
+					
+				</div>
+			</div>
+			<div th:if="${mensaje}" class="alert alert-danger">
+			<p th:text="${mensaje}"></p>
+			</div>
+		</form>
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
